@@ -1,0 +1,20 @@
+
+app-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
+    background-color: #3D3939;
+    padding: 20px 40px;
+    color: #F5F5F5;
+}
+app-conversion{
+    display: flex;
+    flex-direction: column;
+    color: #3D3939;
+    align-items: center;
+}
+@font-face {
+    font-family: 'Italiano';
+    src: url(../fonts/Italianno-Regular.ttf);
+}

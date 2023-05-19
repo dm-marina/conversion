@@ -1,0 +1,11 @@
+.logo{
+    /* color: #F5F5F5; */
+    font-family: 'Italiano';
+    font-size: 52px;
+}
+.currency{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 300px;
+}
