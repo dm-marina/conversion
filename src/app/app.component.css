@@ -2,11 +2,12 @@
 app-header{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-self: center;
     background-color: #3D3939;
     padding: 20px 40px;
     color: #F5F5F5;
+    width: 100%;
 }
 app-conversion{
     display: flex;

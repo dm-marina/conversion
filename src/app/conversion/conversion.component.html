@@ -1,27 +1,40 @@
 <h1>Welcome to conversion currency!</h1>
-<div class="content">
-    <div class="border">
-        <label for="curr1">Enter amount of currency</label>
-        <input type="text" id="curr1" #amount 
-        (mouseleave)="changeAmount(amount.value)"
-        [(ngModel)]="res2">
-        <select #country name="currency" id="uah" (mouseleave)="changeCountry(country.value)" required>
-            <option value="UAH" #uah >UAH</option>
-            <option value="USD" #usd >USD</option>
-            <option value="EUR" #eur >EUR</option>
-        </select>
+    <div  class="content">
+        <form class="border" #conversionForm="ngForm" (mouseleave)="onSubmit(conversionForm)">
+            <label for="amount">Enter amount of currency</label>
+            <input type="text" 
+            id="amount" 
+            [(ngModel)]="amount"
+            required 
+            name="amount1">
+            <select #currency 
+            name="currencyName" 
+            required 
+            (mouseleave)="getCurrencyName(currency.value)" 
+             [(ngModel)]="currencyName">
+                <option value="UAH">UAH</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+            </select>
+        </form>
+        <form class="border" #converteredForm="ngForm" (mouseleave)="onSubmitF2(converteredForm)">
+            <label for="curr2">Convertered currency</label>
+            <select name="converteredCurrencyName"
+             #currency2  
+             required
+             [(ngModel)]="converteredCurrencyName"
+            (mouseleave)="getCurrencyName(currency2.value)">
+                <option value="UAH">UAH</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+            </select>
+            <input type="text"
+             id="curr2" 
+             [(ngModel)]="resAmount" 
+             name="resAmount">
+        </form>
     </div>
-    <div class="border">
-        <label for="curr1">Convertered currency</label>
-        <input type="text" id="curr1" #convertered [(ngModel)]="res">
-        <select name="currency" id="uah" #sCountry (mouseleave)="secondCountry(sCountry.value)" required>
-            <option value="UAH">UAH</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-        </select>
-    </div>
-</div>
-<div class="content">
-    <button (click)="calculateResult()">Result</button>
-    <button (click)="calculateReversedResult()">Reversed Result</button>
-</div>
+
+

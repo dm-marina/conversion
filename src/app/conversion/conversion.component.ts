@@ -1,7 +1,7 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component} from '@angular/core';
 import { CurrencydataService } from '../Currency.data.service';
 import { APIRateType } from '../APIRateType';
-import { HttpClient } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-conversion',
@@ -9,95 +9,65 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./conversion.component.css']
 })
 export class ConversionComponent {
-  @ViewChild('amountInput', {static:false}) amountInput!:ElementRef;
-  @ViewChild('converteredInput', {static:false}) converteredInput!:ElementRef;
-  @ViewChild('country', {static:false}) country!:ElementRef;
-  @ViewChild('sCountry', {static:false}) sCountry!:ElementRef;
-  res!:number;
-  res2!:number;
-  gettingRate:APIRateType[] = [];
-  apiRateType!:APIRateType[];
-  constructor(private http:HttpClient, private currencyDataService: CurrencydataService){}
-  getCurrencyRate(){
-    this.currencyDataService.getNesessaryData();
-  }
+  rate:number;
+  amount:number;
+  resAmount:number;
+  currencyName:string;
+  converteredCurrencyName:string;
+  currency:string;
+  currencyElemRate:number;
+  converteredCurrencyElemRate:number;
+  currencyData:APIRateType[]
+  constructor( private currencyDataService: CurrencydataService){}
   ngOnInit(): void {
-    this.currencyDataService.getNesessaryData().subscribe(response => {
-      for (let resp of response){
-        if(resp.cc==='EUR' || resp.cc==='USD'){
-          this.gettingRate.push(resp);
-        }
+    this.currencyDataService.getNesessaryData().subscribe(
+      (currencyElem)=>{
+        this.currencyData = currencyElem
       }
-    })
+    );
   }
 
-  choosedCountry!:string;
-  choosedAmount!:number;
-  reversedAmount!:number;
-  secCountry!:string;
-  changeCountry(cnt:string){
-      this.choosedCountry=cnt;
+  getCurrencyName(currency:string){
+    this.currency = currency
+    this.getInformByCurrencyName(this.currency)
+    return this.currency
   }
-  changeAmount(amnt:string){
-    this.choosedAmount = +amnt;
-  }
-  secondCountry(countr:string){
-    this.secCountry= countr;
-  }
-  reverseAmount(rev:string){
-    this.reversedAmount=+rev;
+  getInformByCurrencyName(currency:string){
+    for(let currencyElem of this.currencyData){
+      if(currencyElem.cc === currency){
+        if(currency===this.currencyName){
+          this.currencyElemRate = +currencyElem.rate;
+          this.rate =  this.currencyElemRate
+        }
+        if(currency === this.converteredCurrencyName){
+          this.converteredCurrencyElemRate = +currencyElem.rate;
+          this.rate = this.converteredCurrencyElemRate
+        }
+      }
+    }
+    return this.rate
   }
   calculateResult(){
-    let cursChoosedEUR = +this.gettingRate[1].rate;
-    let cursChoosedUSD = +this.gettingRate[0].rate;
-    let cursEUR = +this.gettingRate[1].rate;
-    let cursUSD = +this.gettingRate[0].rate;
-    if(this.choosedCountry==='USD' && this.secCountry==='EUR'){
-      this.res = +((this.choosedAmount*cursChoosedUSD)/cursEUR).toFixed(2);
+    let res:number
+    if(this.converteredCurrencyName==='UAH'){
+      res = +(this.amount*this.currencyElemRate).toFixed(2)
+    }else if(this.currencyName==='UAH'){
+      res = +(this.amount/this.converteredCurrencyElemRate).toFixed(2)
     }
-    if(this.choosedCountry==='EUR' && this.secCountry==='USD'){
-      this.res = +((this.choosedAmount*cursChoosedEUR)/cursUSD).toFixed(2);
+    else{
+      res = +((this.amount*this.currencyElemRate)/this.converteredCurrencyElemRate).toFixed(2)
     }
-    if(this.choosedCountry==='USD' && this.secCountry==='UAH'){
-      this.res = +(this.choosedAmount*cursUSD).toFixed(2);
-    }
-    if(this.choosedCountry==='EUR' && this.secCountry==='UAH'){
-      this.res = +(this.choosedAmount*cursEUR).toFixed(2);
-    }
-    if(this.choosedCountry==='UAH' && this.secCountry==='EUR'){
-      this.res = +(this.choosedAmount/cursEUR).toFixed(2);
-    }
-    if(this.choosedCountry==='UAH' && this.secCountry==='USD'){
-      this.res = +(this.choosedAmount/cursUSD).toFixed(2);
-    }
-          
-  }  
-  calculateReversedResult(){
-    let cursChoosedEUR = +this.gettingRate[1].rate;
-    let cursChoosedUSD = +this.gettingRate[0].rate;
-    let cursEUR = +this.gettingRate[1].rate;
-    let cursUSD = +this.gettingRate[0].rate;
-      if(this.choosedCountry==='USD' && this.secCountry==='EUR'){
-        console.log(this.reversedAmount)
-        this.res2 = +((this.res*cursChoosedEUR)/cursUSD).toFixed(2);
-      }
-      if(this.choosedCountry==='EUR' && this.secCountry==='USD'){
-        this.res2 = +((this.res*cursChoosedUSD)/cursEUR).toFixed(2);
-        console.log(this.res2)
-      }
-      if(this.choosedCountry==='USD' && this.secCountry==='UAH'){
-        this.res2 = +(this.res/cursUSD).toFixed(2);
-      }
-      if(this.choosedCountry==='EUR' && this.secCountry==='UAH'){
-        this.res2 = +(this.res/cursEUR).toFixed(2);
-      }
-      if(this.choosedCountry==='UAH' && this.secCountry==='EUR'){
-        this.res2 = +(this.res*cursEUR).toFixed(2);
-      }
-      if(this.choosedCountry==='UAH' && this.secCountry==='USD'){
-        this.res2 = +(this.res*cursUSD).toFixed(2);
-      }
-    }
+      return res
+  }
+    
+  onSubmit(form: NgForm){
+    this.getInformByCurrencyName(this.currencyName)
+    return form.value
+  }
+  onSubmitF2(form2: NgForm){
+    this.resAmount = +this.calculateResult()
+    return form2.value
+  }
           
      
   

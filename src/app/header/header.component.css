@@ -1,11 +1,24 @@
-.logo{
-    /* color: #F5F5F5; */
-    font-family: 'Italiano';
-    font-size: 52px;
+@media(min-width:320px){ 
+    .logo{
+        font-family: 'Italiano';
+        font-size: 40px;
+        
+    }
+    .currency{
+        display: flex;
+        flex-direction: column;
+    }
 }
-.currency{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    min-width: 300px;
+@media(min-width:768px){
+    .logo{
+        font-size: 52px;
+    }
+    .currency{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        min-width: 600px;
+        max-width: 900px;
+    }
 }

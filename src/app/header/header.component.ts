@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CurrencydataService } from '../Currency.data.service';
 import { APIRateType } from '../APIRateType';
 @Component({
@@ -10,16 +9,15 @@ import { APIRateType } from '../APIRateType';
 export class HeaderComponent {
   gettingRate:APIRateType[] = []
   apiRateType!:APIRateType[]
-  constructor(private http:HttpClient, private currencyDataService: CurrencydataService){}
+  constructor( private currencyDataService: CurrencydataService){}
   getCurrencyRate(){
     this.currencyDataService.getNesessaryData();
   }
   ngOnInit(): void {
     this.currencyDataService.getNesessaryData().subscribe(response => {
       for (let resp of response){
-        if(resp.cc==='EUR' || resp.cc==='USD'){
+        if(resp.cc==='EUR' || resp.cc==='USD' || resp.cc==='GBP'){
           this.gettingRate.push(resp);
-          console.log(this.gettingRate);
         }
       }
     })
