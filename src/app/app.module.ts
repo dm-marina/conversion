@@ -6,7 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { ConversionComponent } from './conversion/conversion.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { CurrencydataService } from './Currency.data.service';
+import { CurrencydataService } from './shared/Currency.data.service';
 
 @NgModule({
   declarations: [

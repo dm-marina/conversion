@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
-import { CurrencydataService } from '../Currency.data.service';
-import { APIRateType } from '../APIRateType';
+import { CurrencydataService } from '../shared/Currency.data.service';
+import { APIRateType } from '../shared/APIRateType';
 import { NgForm } from '@angular/forms';
 
 @Component({
